@@ -11,6 +11,8 @@ import liquibase.database.typeconversion.core.H2TypeConverter;
  * 
  */
 public class H2CustomTypeConverterCopy extends H2TypeConverter {
+	
+	public static final String[] CLIENT_OFF_INCLUDED_DIFF_FIELDS = new String[]{"address", "postalCode", "phone", "mobile", "emailAddress"};
 
 	String nesto = "žćačsdšasofešrođewowefoe";
 	String[] uuu = new String[5];
