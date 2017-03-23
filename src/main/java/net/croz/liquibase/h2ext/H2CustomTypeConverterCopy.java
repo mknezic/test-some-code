@@ -10,7 +10,7 @@ import liquibase.database.typeconversion.core.H2TypeConverter;
  * @author mknezic
  * 
  */
-public class H2CustomTypeConverter extends H2TypeConverter {
+public class H2CustomTypeConverterCopy extends H2TypeConverter {
 
 	String nesto = "žćačsdšasofešrođewowefoe";
 	String[] uuu = new String[5];
