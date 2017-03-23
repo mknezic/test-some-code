@@ -12,6 +12,9 @@ import liquibase.database.typeconversion.core.H2TypeConverter;
  */
 public class H2CustomTypeConverter extends H2TypeConverter {
 
+	String nesto = "žćačsdšasofešrođewowefoe";
+	String[] uuu = new String[5];
+	
     @Override
     public int getPriority() {
         // put higher priority to override default and database default
@@ -28,4 +31,7 @@ public class H2CustomTypeConverter extends H2TypeConverter {
         return new BlobType("BLOB");
     }
 
+	public String[] getUuu() {
+		return uuu;
+	}
 }
