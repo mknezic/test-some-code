@@ -8,6 +8,12 @@
 	<url>https://github.com/mknezic/liquibase-h2ext</url>
     <description>Extensions to liquibase for h2 (clob and blob support etc)</description>
 
+	<scm>
+        <connection>scm:git:https://github.com/mknezic/test-some-code.git</connection>
+        <developerConnection>scm:git:https://github.com/mknezic/test-some-code.git</developerConnection>
+        <url>https://github.com/mknezic/test-some-code.git</url>
+    </scm>
+	
     <properties>
         <project.java.version>1.5</project.java.version>
         <version.liquibase>2.0.1</version.liquibase>
