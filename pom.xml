@@ -3,7 +3,7 @@
 
     <groupId>net.croz.liquibase</groupId>
     <artifactId>liquibase-h2ext</artifactId>
-    <version>0.0.3-SNAPSHOT</version>
+    <version>0.0.4-SNAPSHOT</version>
     <name>liquibase-h2ext</name>
 	<url>https://github.com/mknezic/liquibase-h2ext</url>
     <description>Extensions to liquibase for h2 (clob and blob support etc)</description>
