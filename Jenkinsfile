@@ -1,10 +1,11 @@
-/*
+
+//unused
 SCM = [
         baseURL: 'https://github.com/mknezic/test-some-code.git',
 		branches: '*/master',
 		module: '.'
 ]
-*/
+
 
 //pipelineTriggers([cron('*/1 * * * *')]), /*properties([pipelineTriggers([cron('H 23 * * *')])]) */
 //pipelineTriggers([[$class: "ParameterizedTimerTrigger", parameterizedSpecification: "H 23 * * * %typeOfBuild=NIGHTLY"]]),
