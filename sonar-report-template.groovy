@@ -109,9 +109,9 @@
 			<ol>
 			<% mappedViolations.each { mappedViolation -> %>
 				<li>
-					<p>[<b><span class="priority-${mappedViolation.violation.priority.toLowerCase()}">${mappedViolation.violation.priority}</span></b>] <b>${mappedViolation.violation.rule}</b>. ${mappedViolation.violation.message}<br />
-					in resource <span class="res-name">${mappedViolation.resKey}</span> at line ${mappedViolation.violation.lineNum}
-					(<a href="${webSonarRoot}/drilldown/measures/${mappedViolation.resKey}?metric=new_violations#L${mappedViolation.violation.lineNum}">view in Sonar</a>):</p>
+					<p>[<b><span class="priority-${mappedViolation.violation.severity.toLowerCase()}">${mappedViolation.violation.severity}</span></b>] <b>${mappedViolation.violation.rule}</b>. ${mappedViolation.violation.message}<br />
+					in resource <span class="res-name">${mappedViolation.resKey}</span> at line ${mappedViolation.violation.line}
+					(<a href="${webSonarRoot}/drilldown/measures/${mappedViolation.resKey}?metric=new_violations#L${mappedViolation.violation.line}">view in Sonar</a>):</p>
 					<% if (mappedViolation.source) { %>
 					<table class="source-incut">
 						<% mappedViolation.source.each { lineNum, line -> %>

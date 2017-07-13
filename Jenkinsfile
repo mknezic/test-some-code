@@ -271,92 +271,82 @@ node {
     	stage ('do build') {
 			mvn("-B -e -DskipTests -T1C clean install", SCM.module)
 		}
-		if (build.result == hudson.model.Result.SUCCESS) {
-			stage ('do sonar') {
-				def pom = readMavenPom file:'pom.xml'
-				withSonarQubeEnv('sonar') {
-					//sh "JAVA_HOME=${tool jdkTool} ${tool mavenTool}/bin/mvn sonar:sonar"
-					sh "${tool sonarQubeRunnerTool}/bin/sonar-scanner -Dsonar.projectKey=" + pom.groupId + ":" + pom.artifactId + " -Dsonar.projectName='" + pom.name + "' -Dsonar.projectVersion=" + pom.version + " -Dsonar.language=java -Dsonar.sources=src -Dsonar.junit.reportsPath=target/surefire-reports"
-				} // SonarQube taskId is automatically attached to the pipeline context
-			
-				//SonarRunnerBuilder nema interface za step builder pa nemože ovako
-				/* def sonarBuilder = new hudson.plugins.sonar.SonarRunnerBuilder(
-					project: null, 
-						properties: 
-							'sonar.projectKey=my:testproject\
-							 sonar.projectName=my test project\
-							 sonar.projectVersion=1.0\
-							 sonar.sources=src\
-							 sonar.junit.reportsPath=target/surefire-reports', 
-						javaOpts: '', additionalArguments: '', jdk: 'JDK 8', task: ''
-				);
-				step sonarBuilder
-				*/
-				//nemože ni ovako jer ima databound nešto ali nema interface
-				/*
-					step([$class: 'SonarRunnerBuilder', project: null, 
-						properties: 
-							'sonar.projectKey=my:testproject\
-							 sonar.projectName=my test project\
-							 sonar.projectVersion=1.0\
-							 sonar.sources=src\
-							 sonar.junit.reportsPath=target/surefire-reports', 
-						javaOpts: '', additionalArguments: '', jdk: 'JDK 8', task: '']);
-				*/
-				//al može ovako preko toola	
-		/*    	
-				sh "${tool sonarQubeRunnerTool}/bin/sonar-scanner -Dsonar.host.url=http://192.168.99.100:32770 -Dsonar.login=cc24edd931e26f9b6afa43da7dec8e34fc96e0a7 -Dsonar.projectKey=" + pom.groupId + ":" + pom.artifactId + " -Dsonar.projectName='" + pom.name + "' -Dsonar.projectVersion=" + pom.version + " -Dsonar.language=java -Dsonar.sources=src -Dsonar.junit.reportsPath=target/surefire-reports"
-		  */  	
-				//sh "${tool sonarQubeRunnerTool}/bin/sonar-scanner -Dsonar.host.url=http://192.168.99.100:32771 -Dsonar.login=0e56aba225734b26a5d4fce001bd7db440cf2671 -Dsonar.projectKey=my:testproject -Dsonar.projectName='my test project' -Dsonar.projectVersion=1.0 -Dsonar.language=java -Dsonar.sources=src -Dsonar.junit.reportsPath=target/surefire-reports"
-				
-				doBuild "something as a build name"
-				currentBuild.result = 'SUCCESS'
-			}
-		} else {
-		  echo "build not SUCCESSful, no sonar analysis"
+		stage ('do sonar') {
+			def pom = readMavenPom file:'pom.xml'
+			withSonarQubeEnv('sonar') {
+				//sh "JAVA_HOME=${tool jdkTool} ${tool mavenTool}/bin/mvn sonar:sonar"
+				sh "${tool sonarQubeRunnerTool}/bin/sonar-scanner -Dsonar.projectKey=" + pom.groupId + ":" + pom.artifactId + " -Dsonar.projectName='" + pom.name + "' -Dsonar.projectVersion=" + pom.version + " -Dsonar.language=java -Dsonar.sources=src -Dsonar.junit.reportsPath=target/surefire-reports"
+			} // SonarQube taskId is automatically attached to the pipeline context
+		
+			//SonarRunnerBuilder nema interface za step builder pa nemože ovako
+			/* def sonarBuilder = new hudson.plugins.sonar.SonarRunnerBuilder(
+				project: null, 
+					properties: 
+						'sonar.projectKey=my:testproject\
+						 sonar.projectName=my test project\
+						 sonar.projectVersion=1.0\
+						 sonar.sources=src\
+						 sonar.junit.reportsPath=target/surefire-reports', 
+					javaOpts: '', additionalArguments: '', jdk: 'JDK 8', task: ''
+			);
+			step sonarBuilder
+			*/
+			//nemože ni ovako jer ima databound nešto ali nema interface
+			/*
+				step([$class: 'SonarRunnerBuilder', project: null, 
+					properties: 
+						'sonar.projectKey=my:testproject\
+						 sonar.projectName=my test project\
+						 sonar.projectVersion=1.0\
+						 sonar.sources=src\
+						 sonar.junit.reportsPath=target/surefire-reports', 
+					javaOpts: '', additionalArguments: '', jdk: 'JDK 8', task: '']);
+			*/
+			//al može ovako preko toola	
+	/*    	
+			sh "${tool sonarQubeRunnerTool}/bin/sonar-scanner -Dsonar.host.url=http://192.168.99.100:32770 -Dsonar.login=cc24edd931e26f9b6afa43da7dec8e34fc96e0a7 -Dsonar.projectKey=" + pom.groupId + ":" + pom.artifactId + " -Dsonar.projectName='" + pom.name + "' -Dsonar.projectVersion=" + pom.version + " -Dsonar.language=java -Dsonar.sources=src -Dsonar.junit.reportsPath=target/surefire-reports"
+	  */  	
+			//sh "${tool sonarQubeRunnerTool}/bin/sonar-scanner -Dsonar.host.url=http://192.168.99.100:32771 -Dsonar.login=0e56aba225734b26a5d4fce001bd7db440cf2671 -Dsonar.projectKey=my:testproject -Dsonar.projectName='my test project' -Dsonar.projectVersion=1.0 -Dsonar.language=java -Dsonar.sources=src -Dsonar.junit.reportsPath=target/surefire-reports"
 		}
     } catch (err) {
-        currentBuild.result = 'FAILURE'
         throw err
     }
 }
 
 // No need to occupy a node
-if (build.result == hudson.model.Result.SUCCESS) {
-	stage("Quality Gate") {
-	  timeout(time: 1, unit: 'HOURS') { // Just in case something goes wrong, pipeline will be killed after a timeout
-		def qg = waitForQualityGate() // Reuse taskId previously collected by withSonarQubeEnv
-		if (qg.status != 'OK') {
-		  error "Pipeline aborted due to quality gate failure: ${qg.status}"
-		}
-		//do report
-		node {
-			def pom = readMavenPom file:'pom.xml'
-			withSonarQubeEnv('sonar') {
-		//		sh "${tool sonarQubeRunnerTool}/bin/sonar-scanner -Dsonar.projectKey=" + pom.groupId + ":" + pom.artifactId + " -Dsonar.projectName='" + pom.name + "' -Dsonar.projectVersion=" + pom.version + " -Dsonar.language=java -Dsonar.sources=src -Dsonar.junit.reportsPath=target/surefire-reports"
-
-				echo "sonar host:" + env.SONAR_HOST_URL
-				echo "sonar auth:" + env.SONAR_AUTH_TOKEN
-				//(violationsCount, filesCount, userMappedViolations) = getUserMappedViolations(pom.groupId)
-				violationsInfo = getUserMappedViolations(pom.groupId + ":" + pom.artifactId)
-				println "violations info ${violationsInfo}"
-				violationsCount = violationsInfo[0]
-				filesCount = violationsInfo[1]
-				userMappedViolations = violationsInfo[2]
-				if (violationsCount > 0 || filesCount > 0) {
-					echo "has $violationsCount violations"
-					echo "(violationsCount, filesCount, userMappedViolations) = ($violationsCount, $filesCount, $userMappedViolations)"
-				} else {
-					echo "no violations found"
-				}
-				def templateTxt = readFile('sonar-report-template.groovy')
-				def binding = ["violationsCount": violationsCount, "filesCount":filesCount, "userMappedViolations":userMappedViolations]
-				def engine = new groovy.text.SimpleTemplateEngine()
-				def template = engine.createTemplate(templateTxt).make(binding)
-				def resultText = template.toString()
-				println "violations report: ${resultText}" 
-			}
-		}
-	  }
+stage("Quality Gate") {
+  timeout(time: 1, unit: 'HOURS') { // Just in case something goes wrong, pipeline will be killed after a timeout
+	def qg = waitForQualityGate() // Reuse taskId previously collected by withSonarQubeEnv
+	if (qg.status != 'OK') {
+	  error "Pipeline aborted due to quality gate failure: ${qg.status}"
 	}
+	//do report
+	node {
+		def pom = readMavenPom file:'pom.xml'
+		withSonarQubeEnv('sonar') {
+	//		sh "${tool sonarQubeRunnerTool}/bin/sonar-scanner -Dsonar.projectKey=" + pom.groupId + ":" + pom.artifactId + " -Dsonar.projectName='" + pom.name + "' -Dsonar.projectVersion=" + pom.version + " -Dsonar.language=java -Dsonar.sources=src -Dsonar.junit.reportsPath=target/surefire-reports"
+
+			echo "sonar host:" + env.SONAR_HOST_URL
+			echo "sonar auth:" + env.SONAR_AUTH_TOKEN
+			//(violationsCount, filesCount, userMappedViolations) = getUserMappedViolations(pom.groupId)
+			violationsInfo = getUserMappedViolations(pom.groupId + ":" + pom.artifactId)
+			println "violations info ${violationsInfo}"
+			violationsCount = violationsInfo[0]
+			filesCount = violationsInfo[1]
+			userMappedViolations = violationsInfo[2]
+			if (violationsCount > 0 || filesCount > 0) {
+				echo "has $violationsCount violations"
+				echo "(violationsCount, filesCount, userMappedViolations) = ($violationsCount, $filesCount, $userMappedViolations)"
+			} else {
+				echo "no violations found"
+			}
+			def templateTxt = readFile('sonar-report-template.groovy')
+			def binding = ["violationsCount": violationsCount, "filesCount":filesCount, "userMappedViolations":userMappedViolations, "webSonarRoot":apiSonarRoot ]
+			def engine = new groovy.text.SimpleTemplateEngine()
+			def template = engine.createTemplate(templateTxt).make(binding)
+			def resultText = template.toString()
+			println "violations report: ${resultText}" 
+		}
+	}
+  }
 }
