@@ -109,7 +109,7 @@
 				<li>
 					<p>[<b><span class="priority-${mappedViolation.violation.severity.toLowerCase()}">${mappedViolation.violation.severity}</span></b>] <b>${mappedViolation.violation.rule}</b>. ${mappedViolation.violation.message}<br />
 					in resource <span class="res-name">${mappedViolation.resKey}</span> at line ${mappedViolation.violation.line}
-					(<a href="${webSonarRoot}/drilldown/measures/${mappedViolation.resKey}?metric=new_violations#L${mappedViolation.violation.line}">view in Sonar</a>):</p>
+					(<a href="${webSonarRoot}/issues?open=${mappedViolation.key}&resolved=false">view in Sonar</a>):</p>
 					<% if (mappedViolation.source) { %>
 					<table class="source-incut">
 						<% mappedViolation.source.each { srcArr -> %>
