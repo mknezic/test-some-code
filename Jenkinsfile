@@ -237,9 +237,9 @@ def getUserMappedViolations(projectKey) {
 			sourceFragment = null
 
 			if (violation.line > -1) {
-				sourceFragment = new java.util.HashMap() // [];  //[:]
+				sourceFragment = [];  //[:]
 				for (ln in violation.line - 3..violation.line + 3) {
-					sourceFragment.put(ln, fileContents[ln - 1])
+					sourceFragment << fileContents[ln - 1]
 				}
 			}
 

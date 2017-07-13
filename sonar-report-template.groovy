@@ -100,9 +100,7 @@
 
 <h1>Sonar violations report</h1>
 
-<%
-
-	if (violationsCount > 0) { %>
+<%  if (violationsCount > 0) { %>
 		<p>Found ${violationsCount} new violations in ${filesCount} files.</p>
 		<% userMappedViolations.each { authors, mappedViolations -> %>
 			<h2>Violations by ${authors}</h2>
@@ -125,10 +123,8 @@
 			<% } %>
 			</ol>
 		<% } %>
-	<% } else { %>
-		<p>No new violations! Woot!!!</p>
-	<% } %>
-
-%>
+<% } else { %>
+	<p>No new violations! Woot!!!</p>
+<% } %>
 
 </body>
