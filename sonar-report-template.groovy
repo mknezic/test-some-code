@@ -114,9 +114,9 @@
 					(<a href="${webSonarRoot}/drilldown/measures/${mappedViolation.resKey}?metric=new_violations#L${mappedViolation.violation.line}">view in Sonar</a>):</p>
 					<% if (mappedViolation.source) { %>
 					<table class="source-incut">
-						<% mappedViolation.source.each { lineNum, line -> %>
-							<tr<% if (lineNum == mappedViolation.violation.lineNum) { %> class="error"<% } %>>
-								<td class="line-number">${lineNum}</td><td class="source">${line.replaceAll('\t', '  ')}</td>
+						<% mappedViolation.source.each { srcArr -> %>
+							<tr<% if (srcArr[0] == mappedViolation.violation.lineNum) { %> class="error"<% } %>>
+								<td class="line-number">${srcArr[0]}</td><td class="source">${srcArr[1].replaceAll('\t', '  ')}</td>
 							</tr>
 						<% } %>
 					</table>
