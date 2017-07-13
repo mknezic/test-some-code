@@ -4,6 +4,10 @@ SCM = [
 		module: '.'
 ]
 
+PROJECT_SETUP = [
+	emailGroup: "somegroup@local.dev"
+]
+
 //pipelineTriggers([cron('*/1 * * * *')]), /*properties([pipelineTriggers([cron('H 23 * * *')])]) */
 //pipelineTriggers([[$class: "ParameterizedTimerTrigger", parameterizedSpecification: "H 23 * * * %typeOfBuild=NIGHTLY"]]),
 properties ([
@@ -346,6 +350,14 @@ stage("Quality Gate") {
 			def template = engine.createTemplate(templateTxt).make(binding)
 			def resultText = template.toString()
 			println "violations report: ${resultText}" 
+	        mail subject: "${env.JOB_NAME} (${env.BUILD_NUMBER}) sonar analysis report",
+                body: resultText,
+                to: PROJECT_SETUP.emailGroup,
+                replyTo: PROJECT_SETUP.emailGroup,
+                from: 'Jenkins, its your butler <jenkins@jenkins.local>',
+				charset: 'UTF-8', 
+				mimeType: 'text/html'
+
 		}
 	}
   }
