@@ -1,5 +1,7 @@
 package net.croz.liquibase.h2ext;
 
+import java.util.List;
+import java.util.ArrayList;
 import liquibase.database.structure.type.BlobType;
 import liquibase.database.structure.type.ClobType;
 import liquibase.database.typeconversion.core.H2TypeConverter;
@@ -16,6 +18,12 @@ public class H2CustomTypeConverterCopy extends H2TypeConverter {
 
 	String nesto = "žćačsdšasofešrođewowefoe";
 	String[] uuu = new String[5];
+	
+	public String something() {
+		List neka = new ArrayList<String>();
+		neka.add("123");
+		return (String)neka.get(0);
+	}
 	
     @Override
     public int getPriority() {
